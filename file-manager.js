@@ -17,7 +17,7 @@ console.log(`Welcome to the File Manager, ${user}!`);
 
 // current directory object
 let homeDir = {
-  data: path.join(os.homedir(), '/Desktop/All Task/Node-JS-course/file-manager/file-manager'), //os.homedir(),
+  data: os.homedir(),
   change(prop) {
     return this.data = prop;
   }
@@ -60,6 +60,8 @@ rl.on('line', async (input) => {
     await newArch(input, true);
   } else if (getCmdChunk(input, 0, 1) == 'decompress') {
     await newArch(input, false);
+  } else if (input == 'close') {
+    await rl.close();
   } else {
     console.log('Invalid input\n');
   }
