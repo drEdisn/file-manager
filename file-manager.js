@@ -8,7 +8,6 @@ import {
   renameFile,
   moveFile, 
   delFile} from './commands/file-command.js';
-import path from 'path';
 import calcHash from './commands/hash.js';
 import newArch from './commands/arch.js';
 
@@ -25,6 +24,8 @@ let homeDir = {
 
 process.chdir(homeDir.data);
 console.log(`You are currently in ${homeDir.data}`);
+console.log('Write command here (WARNING! path sould be start with ./ ):');
+console.log('EXAMPLE: rn ./Desktop/text.txt ./newtext.txt');
 
 // create stream variable
 const input = process.stdin;
@@ -32,7 +33,7 @@ const output = process.stdout;
 const rl = readline.createInterface({input, output});
 
 // get console input in chunks 
-const getCmdChunk = (inp, from, to) => inp.split(' ').slice(from, to).join(' ');
+const getCmdChunk = (inp, from, to, os) => {return inp.split(`${os ? ' ' : ' ./'}`).slice(from, to).join(' ')};
 
 // check command line and start function
 rl.on('line', async (input) => {
@@ -42,7 +43,7 @@ rl.on('line', async (input) => {
     await getUpDir();
   } else if (getCmdChunk(input, 0, 1) == 'ls') {
     await getDirList();
-  } else if (getCmdChunk(input, 0, 1) == 'os') {
+  } else if (getCmdChunk(input, 0, 1, true) == 'os') {
     await getOSInfo(input);
   } else if (getCmdChunk(input, 0, 1) == 'cat') {
     await readFileToPach(input);
@@ -67,7 +68,7 @@ rl.on('line', async (input) => {
   }
 
   console.log(`You are currently in ${process.cwd()}`);
-  console.log('Write command here:');
+  console.log('Write command here (WARNING! path sould be start with ./ ):');
 })
 
 rl.on('close', () => console.log(`Thank you for using File Manager, ${user}!`));

@@ -40,8 +40,6 @@ async function moveFile (input) {
   .then(() => {
     console.log('Moving file successfully\n');
   }).catch(() => {
-    console.log(path.basename(getCmdChunk(input, 1, 2)))
-    console.log(path.join(home.data, path.dirname(getCmdChunk(input, 1, 2)), getCmdChunk(input, 2),path.basename(getCmdChunk(input, 1, 2))));
     console.log('Operation failed\n');
   })
 }
