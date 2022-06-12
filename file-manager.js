@@ -58,7 +58,7 @@ rl.on('line', async (input) => {
     await newArch(input, true);
   } else if (getCmdChunk(input, 0, 1) == 'decompress') {
     await newArch(input, false);
-  } else if (input == 'close') {
+  } else if (input == '.exit') {
     rl.close();
   } else {
     console.log('Invalid input\n');
