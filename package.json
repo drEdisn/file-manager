@@ -1,0 +1,21 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "File-manager application for Node.js course",
+  "type": "module",
+  "main": "file-manager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./file-manager.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drEdisn/file-manager.git"
+  },
+  "author": "drEdisn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drEdisn/file-manager/issues"
+  },
+  "homepage": "https://github.com/drEdisn/file-manager#readme"
+}
