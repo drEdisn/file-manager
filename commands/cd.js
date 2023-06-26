@@ -4,20 +4,30 @@ import os from 'os';
 import { currentDir as home } from '../common/currentDir.js';
 import { getCmdChunk } from '../common/getCmdChunk.js';
 
+function getResultPath(filePath) {
+  if (/^[a-zA-Z]:\\/.test(filePath)) {
+    return path.join(filePath);
+  }
+
+  return path.join(home.dir, filePath);
+}
+
+function checkForRoot(resultPath) {
+  const lowerResult = resultPath.toLowerCase();
+  const lowerHomedir = os.homedir().toLowerCase();
+
+  if (!lowerResult.startsWith(lowerHomedir)) {
+    return false;
+  }
+
+  return true;
+}
+
 async function changeDir (input) {
   const [ filePath ] = getCmdChunk(input);
-  let resultPath = '';
-  if (/^[a-zA-Z]:\\/.test(filePath)) {
-    resultPath = path.join(filePath);
-    const check = filePath.toLowerCase().startsWith(os.homedir().toLowerCase());
-
-    if (!check) {
-      console.log('Operation failed\n');
-      return;
-    }
-  } else {
-    resultPath = path.join(home.dir, filePath);
-  }
+  let resultPath = getResultPath(filePath);
+  const isRoot = checkForRoot(resultPath);
+  if (!isRoot) return console.log('Operation failed\n');
 
   await fs.access(resultPath)
   .then(() => {
@@ -28,7 +38,7 @@ async function changeDir (input) {
 }
 
 async function getUpDir () {
-  if (home.dir == os.homedir()) {
+  if (home.dir.toLowerCase() === os.homedir().toLowerCase()) {
     console.log('You are in the root directory\n');
   } else {
     home.change(path.dirname(home.dir));
